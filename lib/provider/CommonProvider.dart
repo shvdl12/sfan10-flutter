@@ -4,7 +4,7 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
-import '../command.dart';
+import '../vo/command.dart';
 
 class CommonProvider extends ChangeNotifier {
   var targetServiceUuid = Guid('0000ffe0-0000-1000-8000-00805f9b34fb');
