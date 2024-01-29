@@ -35,8 +35,10 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  provider: ^6.0.5
   sleek_circular_slider: ^2.0.1
-
+  flutter_blue_plus: ^1.31.7
+  bot_toast: ^4.1.3
 
 dev_dependencies:
   flutter_test:
@@ -62,6 +64,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/nowwin_logo.png
     - assets/ic_top1.png
     - assets/ic_top2.png
     - assets/bt_wind_01.png
