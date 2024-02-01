@@ -41,10 +41,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late CommonProvider provider;
 
-  late StreamSubscription<BluetoothAdapterState> _adapterStateStateSubscription;
-  late StreamSubscription<BluetoothConnectionState>
-      _connectionStateSubscription;
-
   late StreamSubscription<List<ScanResult>> _scanResultSubscription;
 
   late Timer receiver;
@@ -53,8 +49,8 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    _adapterStateStateSubscription =
-        FlutterBluePlus.adapterState.listen((state) {
+
+    FlutterBluePlus.adapterState.listen((state) {
       if (state == BluetoothAdapterState.off) {
         BotToast.showText(text: '블루투스를 켜주세요');
         provider.isConnected = false;
@@ -64,11 +60,21 @@ class _MyHomePageState extends State<MyHomePage> {
     });
 
     if (Platform.isAndroid) {
-      FlutterBluePlus.turnOn();
+      _turnOnBluetooth();
+    } else {
+      flutterBlueInit();
+      initReceiver();
     }
+  }
+
+  Future<void> _turnOnBluetooth() async {
+    await FlutterBluePlus.turnOn();
 
     flutterBlueInit();
+    initReceiver();
+  }
 
+  void initReceiver() {
     receiver = Timer.periodic(const Duration(seconds: 3), (timer) async {
       if (provider.isConnected && provider.device != null) {
         var services = await provider.device.discoverServices();
@@ -109,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
     onStartScan();
 
     print('try connection');
-    // listen to scan results
+
     _scanResultSubscription = FlutterBluePlus.scanResults.listen((results) async {
       if (results.isNotEmpty) {
         ScanResult r = results.last; // the most recently found device
@@ -119,14 +125,6 @@ class _MyHomePageState extends State<MyHomePage> {
           }
           provider.connect(r.device);
 
-          // listen for disconnection
-          _connectionStateSubscription = r.device.connectionState
-              .listen((BluetoothConnectionState state) async {
-            if (state == BluetoothConnectionState.disconnected) {
-              print("disconnect!!!!");
-              print("${r.device.disconnectReason}");
-            }
-          });
         }
       } else {
         print('================== empty');
@@ -294,11 +292,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return !(provider.isConnected && provider.isFanOn);
   }
 
-  /*
-  TODO
-  1. 블루투스 스캔 및 연결 개선
-  2. 블루투스 재연결 (새로 커넥트할때마ㅏㄷ 리스너 갱신)
-   */
   @override
   Widget build(BuildContext context) {
     provider = context.watch<CommonProvider>();
@@ -398,20 +391,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 provider.timerValue = value;
                 provider.setTimer(value);
               });
-
-              // provider.timer?.cancel();
-              // provider.timer =
-              //     Timer.periodic(const Duration(minutes: 5), (timer) {
-              //   if (provider.timerValue >= 1) {
-              //     setState(() {
-              //       provider.timerValue -= 1;
-              //     });
-              //   }
-              //   if (provider.timerValue < 1) {
-              //     provider.adjustWindSpeed(0.0);
-              //     provider.timer?.cancel();
-              //   }
-              // });
             },
           ),
         ),

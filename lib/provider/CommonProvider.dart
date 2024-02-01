@@ -24,6 +24,9 @@ class CommonProvider extends ChangeNotifier {
   int batteryLevel = 0;
   bool isCharging = false;
 
+  late StreamSubscription<BluetoothConnectionState>
+      _connectionStateSubscription;
+
   Future<BluetoothCharacteristic> getChar() async {
     List<BluetoothService> services = await device.discoverServices();
 
@@ -147,6 +150,19 @@ class CommonProvider extends ChangeNotifier {
     //todo 연결 성공 검증, 실패 얼럿
     isConnected = true;
     this.device = device;
+
+    _connectionStateSubscription =
+        device.connectionState.listen((BluetoothConnectionState state) async {
+      if (state == BluetoothConnectionState.disconnected) {
+        print("${device.disconnectReason}");
+        BotToast.showText(text: '기기 연결이 해제되었습니다.');
+
+        isConnected = false;
+        isFanOn = false;
+
+        notifyListeners();
+      }
+    });
 
     notifyListeners();
   }
