@@ -187,8 +187,8 @@ class _MyHomePageState extends State<MyHomePage> {
         : const Text('TIMER OFF');
   }
 
-  String sliderLabelText(sliderValue) {
-    switch (sliderValue) {
+  String sliderLabelText(double sliderValue) {
+    switch (sliderValue.toInt()) {
       case 1:
         return "1단계";
       case 2:
@@ -241,7 +241,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 divisions: 4,
                 label: sliderLabelText(provider.selectedWindSpeed),
                 onChanged: (value) {
-                  provider.adjustWindSpeed(value);
+                  if (value != provider.selectedWindSpeed) {
+                    provider.selectedWindSpeed = value;
+                    provider.adjustWindSpeed(value);
+                  }
                 },
               ),
             ),
@@ -278,7 +281,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 divisions: 3,
                 label: sliderLabelText(provider.selectedBrightness),
                 onChanged: (value) {
-                  provider.adjustBrightness(value);
+                  if (value != provider.selectedBrightness) {
+                    provider.selectedBrightness = value;
+                    provider.adjustBrightness(value);
+                  }
                 },
               ),
             ),

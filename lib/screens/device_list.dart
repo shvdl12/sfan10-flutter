@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:provider/provider.dart';
@@ -15,12 +17,16 @@ class DeviceList extends StatefulWidget {
 class _DeviceListState extends State<DeviceList> {
   late CommonProvider provider;
   final targetName = 'FANMF023';
+  int divisor = Platform.isAndroid ? 8 : 1;
 
   @override
   void initState() {
     super.initState();
+
     FlutterBluePlus.startScan(
-        timeout: const Duration(seconds: 60), continuousUpdates: true);
+        timeout: const Duration(days: 1),
+        continuousUpdates: true,
+        continuousDivisor: divisor);
   }
 
   @override
@@ -45,9 +51,13 @@ class _DeviceListState extends State<DeviceList> {
         centerTitle: true,
         actions: [
           IconButton(
-              onPressed: () => FlutterBluePlus.startScan(
-                  timeout: const Duration(seconds: 60),
-                  continuousUpdates: true),
+              onPressed: () => () async {
+                FlutterBluePlus.stopScan();
+                FlutterBluePlus.startScan(
+                    timeout: const Duration(days: 1),
+                    continuousUpdates: true,
+                    continuousDivisor: divisor);
+              },
               icon: const Icon(Icons.refresh))
         ],
       ),

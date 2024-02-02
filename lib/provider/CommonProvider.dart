@@ -81,9 +81,9 @@ class CommonProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void adjustWindSpeed(windSpeed) {
+  void adjustWindSpeed(double windSpeed) {
     Command windSpeedCmd = Command.windOff;
-    switch (windSpeed) {
+    switch (windSpeed.toInt()) {
       case 0:
         windSpeedCmd = Command.windOff;
       case 1:
@@ -102,9 +102,9 @@ class CommonProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void adjustBrightness(brightness) {
+  void adjustBrightness(double brightness) {
     Command windSpeedCmd = Command.lightOff;
-    switch (brightness) {
+    switch (brightness.toInt()) {
       case 0:
         windSpeedCmd = Command.lightOff;
       case 1:
@@ -150,6 +150,10 @@ class CommonProvider extends ChangeNotifier {
     //todo 연결 성공 검증, 실패 얼럿
     isConnected = true;
     this.device = device;
+
+    if(_connectionStateSubscription != null) {
+      _connectionStateSubscription.cancel();
+    }
 
     _connectionStateSubscription =
         device.connectionState.listen((BluetoothConnectionState state) async {
