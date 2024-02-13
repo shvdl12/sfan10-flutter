@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:iconify_flutter/iconify_flutter.dart'; // For Iconify Widget
+import 'package:iconify_flutter/icons/ph.dart';
 import 'package:provider/provider.dart';
 import 'package:sfan10/provider/CommonProvider.dart';
 import 'package:sfan10/screens/device_list.dart';
@@ -145,33 +147,30 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget batteryIcon() {
-    IconData btIcon = Icons.battery_unknown;
+
+    var btIcon = Ph.battery_warning;
     Color color = Colors.green.shade500;
 
     if (provider.batteryLevel == 1) {
-      btIcon = Icons.battery_1_bar;
+      btIcon = Ph.battery_low_bold;
       color = Colors.red.shade500;
     } else if (provider.batteryLevel == 2) {
-      btIcon = Icons.battery_3_bar;
+      btIcon = Ph.battery_medium_bold;
       color = Colors.orange.shade500;
     } else if (provider.batteryLevel == 3) {
-      btIcon = Icons.battery_5_bar;
+      btIcon = Ph.battery_high_bold;
     } else if (provider.batteryLevel == 4) {
-      btIcon = Icons.battery_full;
+      btIcon = Ph.battery_full_bold;
     }
 
     return Column(
       children: [
         IconButton(
-          onPressed: () {},
-          icon: Icon(btIcon),
-          iconSize: 35,
-          color: color,
-        ),
+            onPressed: () {}, icon: Iconify(btIcon, color: color, size: 30)),
         Row(
           children: [
             const Text('배터리'),
-            if (provider.isCharging) const Icon(Icons.electric_bolt)
+            if (provider.isCharging) const Icon(Icons.electric_bolt, size: 15)
           ],
         )
       ],
