@@ -177,13 +177,66 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  // Widget buildTimerTextLabel() {
+  //   return provider.timerValue >= 1
+  //       ? Text(
+  //           '${((provider.timerValue / 359.0 * 240.0) / 10).toStringAsFixed(1)}h',
+  //           style: TextStyle(color: Colors.green.shade300, fontSize: 18),
+  //         )
+  //       : const Text('TIMER OFF');
+  // }
+
+  /*
+  * 0 -> 0  -> 0
+  * 1 -> 6  -> 5
+  * 2 -> 12 -> 10
+  * 3 -> 18 -> 20
+  * 4 -> 24 -> 25
+  * 5 -> 30 -> 30
+  * 6 -> 36 -> 35
+  * 7 -> 42 -> 40
+  * 8 -> 48 -> 50
+  * 9 -> 54 -> 55
+  */
+
+  num getMinute(String value) {
+    switch(int.parse(value)) {
+      case 1:
+        return 5;
+      case 2:
+        return 10;
+      case 3:
+        return 20;
+      case 4:
+        return 25;
+      case 5:
+        return 30;
+      case 6:
+        return 35;
+      case 7:
+        return 40;
+      case 8:
+        return 50;
+      case 9:
+        return 55;
+      default:
+        return 0;
+    }
+  }
+
   Widget buildTimerTextLabel() {
-    return provider.timerValue >= 1
-        ? Text(
-            '${((provider.timerValue / 359.0 * 240.0) / 10).toStringAsFixed(1)}h',
-            style: TextStyle(color: Colors.green.shade300, fontSize: 18),
-          )
-        : const Text('TIMER OFF');
+    if (provider.timerValue >= 1) {
+      var translatedTime =
+          ((provider.timerValue / 359.0 * 240.0) / 10).toStringAsFixed(1);
+      var splitTranslatedTime = translatedTime.split(".");
+
+      return Text(
+        '${splitTranslatedTime[0]}시간 ${getMinute(splitTranslatedTime[1])}분',
+        style: TextStyle(color: Colors.green.shade300, fontSize: 18),
+      );
+    } else {
+      return const Text('TIMER OFF');
+    }
   }
 
   String sliderLabelText(double sliderValue) {
