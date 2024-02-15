@@ -19,8 +19,6 @@ class CommonProvider extends ChangeNotifier {
   double selectedBrightness = 0;
   double timerValue = 0;
 
-  Timer? timer;
-
   int batteryLevel = 0;
   bool isCharging = false;
 
@@ -74,7 +72,6 @@ class CommonProvider extends ChangeNotifier {
     if(!isFanOn) {
       adjustBrightness(0.0);
       timerValue = 0;
-      timer?.cancel();
     }
 
     notifyListeners();

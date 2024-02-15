@@ -178,15 +178,6 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-  // Widget buildTimerTextLabel() {
-  //   return provider.timerValue >= 1
-  //       ? Text(
-  //           '${((provider.timerValue / 359.0 * 240.0) / 10).toStringAsFixed(1)}h',
-  //           style: TextStyle(color: Colors.green.shade300, fontSize: 18),
-  //         )
-  //       : const Text('TIMER OFF');
-  // }
-
   /*
   * 0 -> 0  -> 0
   * 1 -> 6  -> 5
@@ -465,7 +456,6 @@ class _MyHomePageState extends State<MyHomePage> {
               provider.timerValue = 0;
             });
             provider.setTimer(0);
-            provider.timer?.cancel();
           }
         },
         child: buildTimerTextLabel());
