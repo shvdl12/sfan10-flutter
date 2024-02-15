@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
-import 'package:iconify_flutter/iconify_flutter.dart'; // For Iconify Widget
+import 'package:iconify_flutter/iconify_flutter.dart';
 import 'package:iconify_flutter/icons/ph.dart';
 import 'package:provider/provider.dart';
 import 'package:sfan10/provider/CommonProvider.dart';
@@ -142,8 +142,9 @@ class _MyHomePageState extends State<MyHomePage> {
     int divisor = Platform.isAndroid ? 8 : 1;
     await FlutterBluePlus.startScan(
         timeout: const Duration(days: 1),
-        continuousUpdates: true,
-        continuousDivisor: divisor);
+        // continuousUpdates: true,
+        // continuousDivisor: divisor
+    );
   }
 
   Widget batteryIcon() {

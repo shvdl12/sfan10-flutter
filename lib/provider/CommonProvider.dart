@@ -24,8 +24,7 @@ class CommonProvider extends ChangeNotifier {
   int batteryLevel = 0;
   bool isCharging = false;
 
-  late StreamSubscription<BluetoothConnectionState>
-      _connectionStateSubscription;
+  StreamSubscription<BluetoothConnectionState>? _connectionStateSubscription;
 
   Future<BluetoothCharacteristic> getChar() async {
     List<BluetoothService> services = await device.discoverServices();
@@ -151,9 +150,7 @@ class CommonProvider extends ChangeNotifier {
     isConnected = true;
     this.device = device;
 
-    if(_connectionStateSubscription != null) {
-      _connectionStateSubscription.cancel();
-    }
+    _connectionStateSubscription?.cancel();
 
     _connectionStateSubscription =
         device.connectionState.listen((BluetoothConnectionState state) async {
