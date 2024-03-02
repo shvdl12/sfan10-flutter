@@ -1,4 +1,4 @@
-package com.nowwin.sfan10;
+package com.s_rfid.sfan10;
 
 import io.flutter.embedding.android.FlutterActivity;
 
