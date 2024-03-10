@@ -22,11 +22,11 @@ class CommonProvider extends ChangeNotifier {
   int batteryLevel = 0;
   bool isCharging = false;
 
+  late List<BluetoothService> services;
+
   StreamSubscription<BluetoothConnectionState>? _connectionStateSubscription;
 
   Future<BluetoothCharacteristic> getChar() async {
-    List<BluetoothService> services = await device.discoverServices();
-
     var targetService =
         services.firstWhere((service) => service.uuid == targetServiceUuid);
 
@@ -34,22 +34,15 @@ class CommonProvider extends ChangeNotifier {
         (characteristic) => characteristic.uuid == targetCharacteristicUuid);
   }
 
-  Future<BluetoothCharacteristic> getReadChar() async {
-    List<BluetoothService> services = await device.discoverServices();
 
-    var targetService =
-    services.firstWhere((service) => service.uuid == targetServiceUuid);
 
-    return targetService.characteristics.firstWhere(
-            (characteristic) => characteristic.uuid == targetCharacteristicUuid);
-  }
-
-  void send(c, cmdList) async {
+  void send(BluetoothCharacteristic c, cmdList) async {
     List<int> cmd = [53, 8, 2, 1, 0, 1];
     cmd.addAll(cmdList);
 
-    print(cmd);
+    print('$cmd start');
     await c.write(cmd);
+    print('$cmd end');
   }
 
   void clickPowerButton() async {
@@ -57,13 +50,7 @@ class CommonProvider extends ChangeNotifier {
       return;
     }
 
-    List<int> cmd;
-
-    if (!isFanOn) {
-      cmd = Command.turnOn.value;
-    } else {
-      cmd = Command.turnOff.value;
-    }
+    List<int> cmd = isFanOn ? Command.turnOff.value : Command.turnOn.value;
 
     getChar().then((c) => {send(c, cmd)});
     isFanOn = !isFanOn;
@@ -126,14 +113,14 @@ class CommonProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void connect(device) async {
+  void connect(BluetoothDevice device) async {
     BotToast.showText(text: '연결 시작');
     await FlutterBluePlus.stopScan();
     // await device.device.connect(mtu: null, autoConnect: true);
 
     while(true) {
       try {
-        await device.connect(mtu: null);
+        await device.connect();
         break;
       } catch(e) {
         print(e);
@@ -146,6 +133,8 @@ class CommonProvider extends ChangeNotifier {
     //todo 연결 성공 검증, 실패 얼럿
     isConnected = true;
     this.device = device;
+
+    services = await device.discoverServices();
 
     _connectionStateSubscription?.cancel();
 

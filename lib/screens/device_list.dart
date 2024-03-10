@@ -52,12 +52,15 @@ class _DeviceListState extends State<DeviceList> {
                           style: const TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w400),
                         )),
-                    Padding(
-                        padding: const EdgeInsets.fromLTRB(7, 0, 0, 0),
-                        child: Text(
-                          provider.device.remoteId.toString(),
-                          style: TextStyle(color: Colors.grey.shade600),
-                        )),
+                    SizedBox(
+                      width: 190,
+                      child: Padding(
+                          padding: const EdgeInsets.fromLTRB(7, 0, 0, 0),
+                          child: Text(
+                            provider.device.remoteId.toString(),
+                            style: TextStyle(color: Colors.grey.shade600),
+                          )),
+                    ),
                   ])),
           const Spacer(),
           Padding(
@@ -67,7 +70,7 @@ class _DeviceListState extends State<DeviceList> {
                     await provider.device.disconnect();
                     await refresh();
                   },
-                  child: const Text('연결 해제')))
+                  child: const Text('연결 해제', style: TextStyle(color: Colors.blue))))
         ],
       );
     } else {
@@ -147,7 +150,7 @@ class _DeviceListState extends State<DeviceList> {
                                     provider.connect(scanResult.device);
                                     await refresh();
                                   },
-                                  child: const Text('연결'))))
+                                  child: const Text('연결',style: TextStyle(color: Colors.blue)))))
                           .toList(),
                     ),
                   );

@@ -79,9 +79,9 @@ class _MyHomePageState extends State<MyHomePage> {
   void initReceiver() {
     receiver = Timer.periodic(const Duration(seconds: 3), (timer) async {
       if (provider.isConnected && provider.device != null) {
-        var services = await provider.device.discoverServices();
+        // var services = await provider.device.discoverServices();
 
-        var targetService = services[0];
+        var targetService = provider.services[0];
 
         var c = targetService.characteristics[0];
         var data = await c.read();
@@ -152,7 +152,9 @@ class _MyHomePageState extends State<MyHomePage> {
     var btIcon = Ph.battery_warning;
     Color color = Colors.green.shade500;
 
-    if (provider.batteryLevel == 1) {
+    if (provider.isConnected == false){
+      btIcon = Ph.battery_warning;
+    } else if (provider.batteryLevel == 1) {
       btIcon = Ph.battery_low_bold;
       color = Colors.red.shade500;
     } else if (provider.batteryLevel == 2) {
@@ -227,7 +229,10 @@ class _MyHomePageState extends State<MyHomePage> {
         style: TextStyle(color: Colors.green.shade300, fontSize: 18),
       );
     } else {
-      return const Text('TIMER OFF');
+      return const Text(
+        'TIMER OFF',
+        style: TextStyle(color: Colors.blue),
+      );
     }
   }
 
@@ -258,6 +263,21 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  SliderThemeData getSliderThemeData() {
+    return SliderTheme.of(context).copyWith(
+      trackHeight: 20.0,
+      thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 20.0),
+      overlayShape: const RoundSliderOverlayShape(overlayRadius: 20.0),
+      activeTrackColor: Colors.grey.shade400,
+      inactiveTrackColor: Colors.grey.shade300,
+      thumbColor: Colors.grey.shade400,
+      inactiveTickMarkColor: Colors.grey.shade400,
+      valueIndicatorColor: Colors.grey.shade700,
+      valueIndicatorTextStyle: const TextStyle(fontSize: 15),
+      valueIndicatorShape: const RectangularSliderValueIndicatorShape(),
+    );
+  }
+
   Padding windSpeedSlider() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(10, 50, 10, 0),
@@ -268,16 +288,7 @@ class _MyHomePageState extends State<MyHomePage> {
           const SizedBox(width: 10),
           Expanded(
             child: SliderTheme(
-              data: SliderTheme.of(context).copyWith(
-                  trackHeight: 20.0,
-                  thumbShape:
-                      const RoundSliderThumbShape(enabledThumbRadius: 20.0),
-                  overlayShape:
-                      const RoundSliderOverlayShape(overlayRadius: 20.0),
-                  activeTrackColor: Colors.grey.shade400,
-                  inactiveTrackColor: Colors.grey.shade300,
-                  thumbColor: Colors.grey.shade400,
-                  inactiveTickMarkColor: Colors.grey.shade400),
+              data: getSliderThemeData(),
               child: Slider(
                 value: provider.selectedWindSpeed,
                 min: 0,
@@ -308,16 +319,7 @@ class _MyHomePageState extends State<MyHomePage> {
           const SizedBox(width: 10),
           Expanded(
             child: SliderTheme(
-              data: SliderTheme.of(context).copyWith(
-                  trackHeight: 20.0,
-                  thumbShape:
-                      const RoundSliderThumbShape(enabledThumbRadius: 20.0),
-                  overlayShape:
-                      const RoundSliderOverlayShape(overlayRadius: 20.0),
-                  activeTrackColor: Colors.grey.shade400,
-                  inactiveTrackColor: Colors.grey.shade300,
-                  thumbColor: Colors.grey.shade400,
-                  inactiveTickMarkColor: Colors.grey.shade400),
+              data: getSliderThemeData(),
               child: Slider(
                 value: provider.selectedBrightness,
                 min: 0,
