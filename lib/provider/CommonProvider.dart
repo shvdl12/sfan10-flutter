@@ -21,6 +21,7 @@ class CommonProvider extends ChangeNotifier {
 
   int batteryLevel = 0;
   bool isCharging = false;
+  bool isFirst = true;
 
   late List<BluetoothService> services;
 
@@ -40,9 +41,7 @@ class CommonProvider extends ChangeNotifier {
     List<int> cmd = [53, 8, 2, 1, 0, 1];
     cmd.addAll(cmdList);
 
-    print('$cmd start');
     await c.write(cmd);
-    print('$cmd end');
   }
 
   void clickPowerButton() async {
@@ -132,6 +131,7 @@ class CommonProvider extends ChangeNotifier {
 
     //todo 연결 성공 검증, 실패 얼럿
     isConnected = true;
+    isFirst = true;
     this.device = device;
 
     services = await device.discoverServices();
@@ -150,6 +150,22 @@ class CommonProvider extends ChangeNotifier {
         notifyListeners();
       }
     });
+
+    var targetService = services[0];
+
+    var c = targetService.characteristics[0];
+    var data = await c.read();
+    var splitData = data.sublist(7, 12);
+
+    selectedWindSpeed = splitData[0].toDouble();
+    selectedBrightness = splitData[1].toDouble();
+    isCharging = splitData[3] == 1;
+    batteryLevel = splitData[4];
+    timerValue = splitData[2] / 240.0 * 359.0;
+
+    if (selectedBrightness > 0 || selectedWindSpeed > 0) {
+      isFanOn = true;
+    }
 
     notifyListeners();
   }

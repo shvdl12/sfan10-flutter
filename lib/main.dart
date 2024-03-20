@@ -46,7 +46,6 @@ class _MyHomePageState extends State<MyHomePage> {
   late StreamSubscription<List<ScanResult>> _scanResultSubscription;
 
   late Timer receiver;
-  bool isNotInit = true;
 
   @override
   void initState() {
@@ -77,12 +76,9 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void initReceiver() {
-    receiver = Timer.periodic(const Duration(seconds: 3), (timer) async {
+    receiver = Timer.periodic(const Duration(seconds: 60), (timer) async {
       if (provider.isConnected && provider.device != null) {
-        // var services = await provider.device.discoverServices();
-
         var targetService = provider.services[0];
-
         var c = targetService.characteristics[0];
         var data = await c.read();
         var splitData = data.sublist(7, 12);
@@ -90,13 +86,16 @@ class _MyHomePageState extends State<MyHomePage> {
         provider.isCharging = splitData[3] == 1;
         provider.batteryLevel = splitData[4];
 
-        provider.selectedWindSpeed = splitData[0].toDouble();
-        provider.selectedBrightness = splitData[1].toDouble();
-        isNotInit = false;
-
-        if (provider.selectedBrightness > 0 || provider.selectedWindSpeed > 0) {
-          provider.isFanOn = true;
-        }
+        // if (provider.isFirst) {
+        //   provider.selectedWindSpeed = splitData[0].toDouble();
+        //   provider.selectedBrightness = splitData[1].toDouble();
+        //
+        //   provider.isFirst = false;
+        // }
+        //
+        // if (provider.selectedBrightness > 0 || provider.selectedWindSpeed > 0) {
+        //   provider.isFanOn = true;
+        // }
 
         provider.timerValue = splitData[2] / 240.0 * 359.0;
         provider.notifyListeners();

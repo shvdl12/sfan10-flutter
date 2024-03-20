@@ -2,15 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>This app always needs location and when in use to function</string>
-    <key>NSLocationAlwaysUsageDescription</key>
-    <string>This app always needs location to function</string>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>This app needs location when in use to function</string>
-
-    <key>NSBluetoothAlwaysUsageDescription</key>
-    <string>앱이 블루투스를 사용하여 개인 정보를 접근합니다. 블루투스를 통해 다른 기기와 연결하고 데이터를 교환할 수 있습니다.</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
@@ -35,6 +26,8 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSFileProviderPresenceUsageDescription</key>
+	<string>앱이 블루투스를 통해 다른 기기와 연결하고 데이터를 교환할 수 있습니다.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
