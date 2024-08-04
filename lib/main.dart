@@ -235,7 +235,20 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  String sliderLabelText(double sliderValue) {
+  String windSliderLabelText(double sliderValue) {
+    switch (sliderValue.toInt()) {
+      case 1:
+        return "1단계";
+      case 2:
+        return "2단계";
+      case 3:
+        return "자연풍";
+      default:
+        return "꺼짐";
+    }
+  }
+
+  String brightnessSliderLabelText(double sliderValue) {
     switch (sliderValue.toInt()) {
       case 1:
         return "1단계";
@@ -243,8 +256,6 @@ class _MyHomePageState extends State<MyHomePage> {
         return "2단계";
       case 3:
         return "3단계";
-      case 4:
-        return "자연풍";
       default:
         return "꺼짐";
     }
@@ -291,9 +302,9 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Slider(
                 value: provider.selectedWindSpeed,
                 min: 0,
-                max: 4,
-                divisions: 4,
-                label: sliderLabelText(provider.selectedWindSpeed),
+                max: 3,
+                divisions: 3,
+                label: windSliderLabelText(provider.selectedWindSpeed),
                 onChanged: (value) {
                   if (value != provider.selectedWindSpeed) {
                     provider.selectedWindSpeed = value;
@@ -324,7 +335,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 min: 0,
                 max: 3,
                 divisions: 3,
-                label: sliderLabelText(provider.selectedBrightness),
+                label: brightnessSliderLabelText(provider.selectedBrightness),
                 onChanged: (value) {
                   if (value != provider.selectedBrightness) {
                     provider.selectedBrightness = value;

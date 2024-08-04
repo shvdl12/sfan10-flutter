@@ -73,8 +73,6 @@ class CommonProvider extends ChangeNotifier {
       case 2:
         windSpeedCmd = Command.wind_2;
       case 3:
-        windSpeedCmd = Command.wind_3;
-      case 4:
         windSpeedCmd = Command.windNatural;
     }
 
@@ -158,6 +156,11 @@ class CommonProvider extends ChangeNotifier {
     var splitData = data.sublist(7, 12);
 
     selectedWindSpeed = splitData[0].toDouble();
+
+    if (selectedWindSpeed == 4) {
+      selectedWindSpeed = 3;
+    }
+
     selectedBrightness = splitData[1].toDouble();
     isCharging = splitData[3] == 1;
     batteryLevel = splitData[4];
