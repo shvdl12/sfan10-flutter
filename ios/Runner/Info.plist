@@ -26,9 +26,9 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSFileProviderPresenceUsageDescription</key>
-	<string>앱이 블루투스를 통해 다른 기기와 연결하고 데이터를 교환할 수 있습니다.</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>앱이 블루투스를 통해 다른 기기와 연결하고 데이터를 교환할 수 있습니다.</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>앱이 블루투스를 통해 다른 기기와 연결하고 데이터를 교환할 수 있습니다.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>

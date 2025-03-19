@@ -1,16 +1,18 @@
-# sfan10
+# sfan10-remote-control
 
-sfan10-remote-control
+sfan10 무선 실링팬 선풍기를 제어하는 앱입니다. <br>
+제품 링크: https://www.s-fan.co.kr/s-fan/s-fan10.html
 
-## Getting Started
+## 주요기능
 
-This project is a starting point for a Flutter application.
+- 배터리 확인
+- 타이머 설정
+- 풍향 설정: 1단계, 2단계, 자연풍
+- 조명 밝기 설정: 1단계, 2단계, 3단계
 
-A few resources to get you started if this is your first Flutter project:
+## 개발환경
+- Flutter 3.10.5
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 이슈
+- 풍향 조절 3단계 설정 후, 일정 시간 뒤에 간헐적으로 종료되는 이슈
+- 앱 내 3단계 설정 기능 제거
