@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       builder: BotToastInit(),
+      theme: ThemeData(useMaterial3: false),
       navigatorObservers: [BotToastNavigatorObserver()],
       home: const MyHomePage(),
       routes: {
@@ -384,32 +385,34 @@ class _MyHomePageState extends State<MyHomePage> {
                     ))
               ],
             )),
-        body: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.all(10),
-            child: Column(
-              children: [
-                Padding(
-                    padding: const EdgeInsets.fromLTRB(40, 10, 40, 40),
-                    child: Row(
-                      children: [
-                        Column(
-                          children: [powerIcon(), const Text('전원')],
-                        ),
-                        const Spacer(),
-                        batteryIcon()
-                      ],
-                    )),
-                AbsorbPointer(
-                    absorbing: isAbsorbing(), child: circularSlider()),
-                const SizedBox(height: 30),
-                AbsorbPointer(absorbing: isAbsorbing(), child: timerLabel()),
-                AbsorbPointer(
-                    absorbing: isAbsorbing(), child: windSpeedSlider()),
-                const SizedBox(height: 60),
-                AbsorbPointer(
-                    absorbing: isAbsorbing(), child: brightnessSlider())
-              ],
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  Padding(
+                      padding: const EdgeInsets.fromLTRB(40, 10, 40, 40),
+                      child: Row(
+                        children: [
+                          Column(
+                            children: [powerIcon(), const Text('전원')],
+                          ),
+                          const Spacer(),
+                          batteryIcon()
+                        ],
+                      )),
+                  AbsorbPointer(
+                      absorbing: isAbsorbing(), child: circularSlider()),
+                  const SizedBox(height: 30),
+                  AbsorbPointer(absorbing: isAbsorbing(), child: timerLabel()),
+                  AbsorbPointer(
+                      absorbing: isAbsorbing(), child: windSpeedSlider()),
+                  const SizedBox(height: 60),
+                  AbsorbPointer(
+                      absorbing: isAbsorbing(), child: brightnessSlider())
+                ],
+              ),
             ),
           ),
         ));
